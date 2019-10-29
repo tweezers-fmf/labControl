@@ -28,7 +28,7 @@ __author__ = 'Ziga Gregorin'
 import numpy as np
 import PySpin
 import cv2
-from labControl import flir as config
+from labControl.flir import conf as config
 
 from labtools.log import create_logger
 from labtools.utils.instr import InstrError, BaseDevice
