@@ -23,6 +23,7 @@ Additional libraries needed:
 
 
 """
+__author__ = 'Ziga Gregorin'
 
 import numpy as np
 import PySpin

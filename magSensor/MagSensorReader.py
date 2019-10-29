@@ -7,6 +7,7 @@
 Data reader for Arduino controlled magnetic field sensor
 
 """
+__author__ = 'Ziga Gregorin'
 
 import time
 import numpy as np

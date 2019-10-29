@@ -6,6 +6,7 @@
 
 
 """
+__author__ = 'Ziga Gregorin'
 
 import visa
 from .conf import INSTR, LOGLEVEL, FUNC
