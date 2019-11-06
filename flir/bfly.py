@@ -37,7 +37,7 @@ import ArTwvStructure
 import ctypes
 import multiprocessing as mp
 
-import timing
+from labControl import timing
 from os import listdir, makedirs
 
 logger = create_logger(__name__, config.LOGLEVEL)
