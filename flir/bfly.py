@@ -662,7 +662,7 @@ class BflyCamera(BaseDevice):
 
                 else:
                     #  Save image to disk
-                    image_result.Save(name + timing.dateToday() + '{:05d}'.format(i), self.imageFormat)
+                    image_result.Save(name + timing.dateToday() + '_{:05d}'.format(i), self.imageFormat)
 
                     #  Release image
                     image_result.Release()
