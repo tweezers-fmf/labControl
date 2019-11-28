@@ -169,7 +169,7 @@ class BflyCamera(BaseDevice):
 
     @exposureAuto.setter
     def exposureAuto(self, value):
-        """ Set automatic exposure to 'Off', 'Once', 'Continous' """
+        """ Set automatic exposure to 'Off', 'Once', 'Continuous' """
 
         symbolic = {'Off': PySpin.ExposureAuto_Off,
                     'Once': PySpin.ExposureAuto_Once,
@@ -614,30 +614,54 @@ class BflyCamera(BaseDevice):
 
         return BflyImage(img, meta)
 
-    def liveImage(self):
+    def liveImage(self, frames=None):
         """ This function projects live image from a device
             Press 'q' to close the video stream
         """
         print('Press "q" to close.')
 
-        try:
-            result = True
-            self.BeginAcquisition()
+        if frames:
+            try:
+                result = True
+                self.BeginAcquisition()
 
-            while True:
-                image_result = self.GetNextImage()
-                image_converted = image_result.Convert(self.pixelFormat, PySpin.HQ_LINEAR)
-                img = image_converted.GetNDArray()
-                cv2.imshow("LiveCam", img)
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    cv2.destroyAllWindows()
-                    image_result.Release()
-                    break
+                for i in range(frames):
+                    image_result = self.GetNextImage()
+                    image_converted = image_result.Convert(self.pixelFormat, PySpin.HQ_LINEAR)
+                    img = image_converted.GetNDArray()
+                    cv2.imshow("LiveCam", img)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        cv2.destroyAllWindows()
+                        image_result.Release()
+                        break
+                # close window
+                cv2.destroyAllWindows()
+                image_result.Release()
 
-        except PySpin.SpinnakerException as ex:
-            result = False
-            print('Error: %s' % ex)
-        self.EndAcquisition()
+            except PySpin.SpinnakerException as ex:
+                result = False
+                print('Error: %s' % ex)
+            self.EndAcquisition()
+
+        else:
+            try:
+                result = True
+                self.BeginAcquisition()
+
+                while True:
+                    image_result = self.GetNextImage()
+                    image_converted = image_result.Convert(self.pixelFormat, PySpin.HQ_LINEAR)
+                    img = image_converted.GetNDArray()
+                    cv2.imshow("LiveCam", img)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        cv2.destroyAllWindows()
+                        image_result.Release()
+                        break
+
+            except PySpin.SpinnakerException as ex:
+                result = False
+                print('Error: %s' % ex)
+            self.EndAcquisition()
         return result
 
     def acquireImages(self, num=1, name='BflyTestImage'):
