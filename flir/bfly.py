@@ -688,6 +688,11 @@ class BflyCamera(BaseDevice):
                     #  Save image to disk
                     image_result.Save(name + timing.dateToday() + '_{:05d}'.format(i), self.imageFormat)
 
+                    image_converted = image_result.Convert(self.pixelFormat, PySpin.HQ_LINEAR)
+
+                    img = image_converted.GetNDArray()
+                    meta = getMetaData(image_result)
+
                     #  Release image
                     image_result.Release()
 
@@ -695,6 +700,8 @@ class BflyCamera(BaseDevice):
                 print('Error: %s' % ex)
 
         self.EndAcquisition()
+        # have last image returned
+        return BflyImage(img, meta)
 
     # TWV movie recording
     def start_recording(self, file_name):
