@@ -29,46 +29,46 @@ class Optical:
         return ERRORLIST[echo]
 
     def setRecFile(self, fileName=''):
-        self._query(f'CAMERA_SET_REC_FILE {fileName}')
+        return self._query(f'CAMERA_SET_REC_FILE {fileName}')
 
     def setImgFile(self, fileName=''):
-        self._query(f'CAMERA_SET_IMG_FILE {fileName}')
+        return self._query(f'CAMERA_SET_IMG_FILE {fileName}')
 
     def startRecording(self, FMmode=True):
         fm = '_FM' if FMmode else ''
-        self._query(f'CAMERA_REC_START{fm}')
+        return self._query(f'CAMERA_REC_START{fm}')
 
     def stopRecording(self):
-        self._query('CAMERA_REC_STOP')
+        return self._query('CAMERA_REC_STOP')
 
     def takeImage(self):
-        self._query('CAMERA_IMG_SINGLE')
+        return self._query('CAMERA_IMG_SINGLE')
 
     def setClock(self, clock_MHz):
         """ Set camera pixel clock in MHz
         """
-        self._query(f'CAMERA_SET_CLOCK {clock_MHz}')
+        return self._query(f'CAMERA_SET_CLOCK {clock_MHz}')
 
     def setFPS(self, fps=10):
-        self._query(f'CAMERA_SET_FRAME_RATE {fps}')
+        return self._query(f'CAMERA_SET_FRAME_RATE {fps}')
 
     def setExposure(self, exposure_ms=200):
-        self._query(f'CAMERA_SET_EXPOSURE {exposure_ms}')
+        return self._query(f'CAMERA_SET_EXPOSURE {exposure_ms}')
 
     def setGain(self, gain=1):
-        self._query(f'CAMERA_SET_GAIN {gain}')
+        return self._query(f'CAMERA_SET_GAIN {gain}')
 
     def focus(self, beamFocus=500):
-        self._query(f'BEAM_SET_FOCUS {beamFocus}')
+        return self._query(f'BEAM_SET_FOCUS {beamFocus}')
 
     def laserOn(self):
-        self._query(f'LASER_ON')
+        return self._query(f'LASER_ON')
 
     def laserOff(self):
-        self._query(f'LASER_OFF')
+        return self._query(f'LASER_OFF')
 
     def laserLevel(self, level=0.2):
-        self._query(f'LASER_SET_LEVEL {level}')
+        return self._query(f'LASER_SET_LEVEL {level}')
 
     # TODO: add orders from CLEAR_PROJECT on
 
