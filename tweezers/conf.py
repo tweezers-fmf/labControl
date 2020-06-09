@@ -1,5 +1,5 @@
 # Logging level, set to 'DEBUG' or 'INFO' to display messages in console. For debugging mainly...
-LOGLEVEL = 'WARN'
+LOGLEVEL = 'DEBUG'
 
 ERRORLIST = {
     '0':  "no error",

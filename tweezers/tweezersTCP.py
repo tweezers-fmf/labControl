@@ -1,5 +1,5 @@
 import socket
-from .conf import ERRORLIST, LOGLEVEL
+from labControl.tweezers.conf import ERRORLIST, LOGLEVEL  # TODO: change back to .conf
 from labtools.log import create_logger
 
 logger = create_logger(__name__, LOGLEVEL)
@@ -72,6 +72,37 @@ class Optical:
 
     # TODO: add orders from CLEAR_PROJECT on
 
+class Magnetic:
+
+    # default gateway
+    HOST = '88.200.78.109'
+    PORT = 2222
+
+    def __init__(self):
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.connect((Magnetic.HOST, Magnetic.PORT))
+        logger.info(f'Connecting to {Magnetic.HOST}:{Magnetic.PORT}')
+
+        # test connection
+        connTest = self._query('test')
+        print(connTest)
+        # if not connTest == 'unknown command':
+        #     logger.warn(f'Got {connTest} instead of "unknown command".')
+
+    def _query(self, order=''):
+        logger.debug(f'Sending command "{order}".')
+        self.s.send(f'{order}\r\n'.encode())
+
+        echo = self.s.recv(1024).decode().strip()
+        # logger.debug(f'Received error: "{echo}" - {ERRORLIST[echo]}')
+        # return ERRORLIST[echo]
+        return echo
+
+    def setDC(self):
+        return self._query(f'setdc 0')
+
 if __name__ == '__main__':
 
-    test = Optical()
+    test = Magnetic()
+    test.setDC()
+
