@@ -152,6 +152,8 @@ class Magnetic(Tweezer):
         r1 = self.query(f'dc_value {dirs[0]} {amplitude}')
         r2 = self.query(f'dc_value {dirs[1]} {-amplitude}')
 
+        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.2f} mT')
+
         return r1, r2
 
     def setWaveform(self, direction='x'):
@@ -197,7 +199,7 @@ class Magnetic(Tweezer):
         r1 = self.query(f'scale {dirs[0]} {appliedAmplitude}')
         r2 = self.query(f'scale {dirs[1]} {appliedAmplitude}')
 
-        logger.info(f'Set field with amplitude {calculateField(amplitude, direction)}')
+        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.2f} mT')
 
         return r1, r2
 
@@ -218,6 +220,46 @@ class Magnetic(Tweezer):
         r2 = self.query(f'setphase {dirs[1]} {phase+shift}')
 
         return r1, r2
+
+    def setMagicAngle(self, zAmplitude=0.1, frequency=10., startQ=True):
+        """ set Magic angle rotation with defined scale in z direction
+        Sets DC field in z direction and AC field in x and y with appropriate scaling
+
+        :param zAmplitude: current amplitude
+        :param frequency: frequency in Hz
+        :param startQ: bool - start immediately
+        :return:
+        """
+
+        self.setDC('z')
+        self.setWaveform('x')
+        self.setWaveform('y')
+
+        self.setDCAmplitude('z', zAmplitude)
+        self.setAmplitude('x', 5.7*1.414213562*zAmplitude)
+        self.setAmplitude('y', 5.7*1.414213562*zAmplitude)
+
+        self.setFrequency('x', frequency)
+        self.setFrequency('y', frequency)
+
+        self.setPhase('x', 0)
+        self.setPhase('y', 90)
+
+        if startQ:
+            self.synchronize()
+            self.reset()
+
+    def stop(self):
+        """ Stop all channels
+
+        :return:
+        """
+        self.disable('x')
+        self.disable('y')
+        self.disable('z')
+        self.synchronize()
+
+        return None
 
 
 def calculateField(amplitude=1., direction='x'):
