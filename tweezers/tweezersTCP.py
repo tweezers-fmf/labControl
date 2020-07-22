@@ -12,8 +12,9 @@ class Tweezer:
         self.port = port
         pass
 
-    def _query(self, order='', bufferSize=1024):
+    def _query(self, order='', bufferSize=1024, timeout=10):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(timeout)
             s.connect((self.host, self.port))
             logger.debug(f'Sending command "{order}".')
             s.send(f'{order}\r\n'.encode())
@@ -218,6 +219,20 @@ class Magnetic(Tweezer):
 
         r1 = self.query(f'setphase {dirs[0]} {phase}')
         r2 = self.query(f'setphase {dirs[1]} {phase+shift}')
+
+        return r1, r2
+
+    def setOffset(self, direction='x', offset=0.):
+        """ Set offset for waveform
+        Offset is set to opposite signs for the field to be in the same direction.
+        :param direction:
+        :param offset: in amperes
+        :return:
+        """
+        dirs = self.DIR[direction]
+
+        r1 = self.query(f'setoffset {dirs[0]} {offset}')
+        r2 = self.query(f'setoffset {dirs[1]} {-offset}')
 
         return r1, r2
 
