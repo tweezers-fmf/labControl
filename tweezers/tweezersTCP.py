@@ -31,6 +31,7 @@ class Optical(Tweezer):
 
         # test connection
         connTest = self.query('test')
+        logger.info(f'Tested connection on {self.host}:{self.port}. Response = "{connTest}"')
         if not connTest == 'unknown command':
             logger.warn(f'Got "{connTest}" instead of "1".')
 
@@ -89,7 +90,7 @@ class Magnetic(Tweezer):
         'z': (6, 7)
     }
 
-    def __init__(self, host='88.200.78.109', port=2222):
+    def __init__(self, host='88.200.78.67', port=2222):
         super().__init__(host, port)
 
         # test connection
@@ -153,7 +154,7 @@ class Magnetic(Tweezer):
         r1 = self.query(f'dc_value {dirs[0]} {amplitude}')
         r2 = self.query(f'dc_value {dirs[1]} {-amplitude}')
 
-        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.2f} mT')
+        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.3f} mT')
 
         return r1, r2
 
@@ -200,7 +201,7 @@ class Magnetic(Tweezer):
         r1 = self.query(f'scale {dirs[0]} {appliedAmplitude}')
         r2 = self.query(f'scale {dirs[1]} {appliedAmplitude}')
 
-        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.2f} mT')
+        logger.info(f'Set field with amplitude {calculateField(amplitude, direction):.3f} mT')
 
         return r1, r2
 
@@ -275,6 +276,31 @@ class Magnetic(Tweezer):
         self.synchronize()
 
         return None
+
+
+class Camera(Tweezer):
+
+    def __init__(self, host='127.0.0.1', port=2071):
+        super().__init__(host, port)
+
+        # test connection
+        connTest = self.query('test')
+        logger.info(f'Tested connection on {self.host}:{self.port}. Response = "{connTest}"')
+
+    def query(self, order='', bufferSize=1024):
+        return self._query(order, bufferSize)
+
+    def setFolder(self, folder=''):
+        return self.query(f'SETFOLDER {folder}')
+
+    def startRecording(self, filename=''):
+        return self.query(f'RECORDSTART {filename}')
+
+    def stopRecording(self):
+        return self.query('RECORDSTOP')
+
+    def takeImage(self, filename=''):
+        return self.query(f'SNAPSHOT {filename}')
 
 
 def calculateField(amplitude=1., direction='x'):
