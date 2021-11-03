@@ -32,7 +32,7 @@ class Optical(Tweezer):
         # test connection
         connTest = self.query('test')
         if not connTest == 'unknown command':
-            logger.warn(f'Got "{connTest}" instead of "1".')
+            logger.warning(f'Got "{connTest}" instead of "1".')
 
     def query(self, order='', bufferSize=1024):
         return ERRORLIST[self._query(order, bufferSize)]
@@ -284,8 +284,8 @@ class Camera(Tweezer):
 
         # test connection
         connTest = self.query('test')
-        if not connTest == 'unknown command':
-            logger.warn(f'Got "{connTest}" instead of "1".')
+        if not connTest == 'OK':
+            logger.warning(f'Got "{connTest}" instead of "OK".')
 
     def query(self, order='', bufferSize=1024):
         return self._query(order, bufferSize)
@@ -294,7 +294,7 @@ class Camera(Tweezer):
         return self.query(f'SETFOLDER {folderName}')
 
     def startRecording(self, fileName='test'):
-        return self.query(f'RECORDSTART {fileName}')
+        return self.query(f'RECORDSTART {fileName}.twv')
 
     def stopRecording(self):
         return self.query('RECORDSTOP')
@@ -322,5 +322,6 @@ def calculateField(amplitude=1., direction='x'):
 if __name__ == '__main__':
     from labControl import timing
 
-    test = Optical()
+    test = Camera()
+    # test = Optical()
     timing.sleep(2)
