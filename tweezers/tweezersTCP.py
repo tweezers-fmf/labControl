@@ -94,7 +94,7 @@ class Magnetic(Tweezer):
 
         # test connection
         connTest = self.query('test')
-        logger.info(f'Tested connection on {self.host}:{self.port}. Response = "{connTest}"')
+        logger.debug(f'Tested connection on {self.host}:{self.port}. Response = "{connTest}"')
 
     def query(self, order='', bufferSize=1024):
         return self._query(order, bufferSize)
