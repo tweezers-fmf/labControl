@@ -706,7 +706,7 @@ def acquire_image(cam, picName='BFLYpicture', savePic=True):
     Acquisition example for more in-depth comments on the acquisition of images.
 
     :param savePic: save picture to disk?
-    :param picName: path and filename for picture acquisition
+    :param picName: filePath and filename for picture acquisition
     :param cam: Camera to acquire images from.
     :type cam: CameraPtr
     :return: ndarray, image metadata
@@ -753,7 +753,7 @@ def acquire_images_for_flow(cam, num, picName='BFLYpicture', ROI=(0,0,1920,1200)
 
     :param ROI: region of interest (x0, y0, x1, y1)
     :param num: number of saved pictures
-    :param picName: path and filename for picture acquisition
+    :param picName: filePath and filename for picture acquisition
     :param cam: Camera to acquire images from.
     :type cam: CameraPtr
     :return: ndarray, image metadata

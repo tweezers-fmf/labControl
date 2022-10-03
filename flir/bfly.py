@@ -668,7 +668,7 @@ class BflyCamera(BaseDevice):
         """ Acquire images and save them to disk
 
         :param num: number of pictures
-        :param name: file path and name
+        :param name: file filePath and name
         :return:
         """
         logger.debug('Acquire {} images with name {}'.format(num, name))
@@ -713,7 +713,7 @@ class BflyCamera(BaseDevice):
             if not file_name.endswith('.twv'):
                 file_name += '.twv'
 
-            file_name = file_name.replace('\\', '/')  # path has only / separator
+            file_name = file_name.replace('\\', '/')  # filePath has only / separator
 
             # check if the folder exist, create if it does not
             path = '/'.join(file_name.split('/')[:-1])

@@ -105,26 +105,26 @@ class Rigol(BaseDevice):
 
 
     def setVoltage(self, voltage=0., ch=1):
-        """ Set amplitude voltage peak-to-peak on desired channel
+        """ Set amplitude voltage_mV peak-to-peak on desired channel
 
-        :param voltage: float: voltage peak-to-peak
+        :param voltage: float: voltage_mV peak-to-peak
         :param ch: int: channel
         :return: bool
         """
-        logger.debug('Set voltage to {:f} Vpp'.format(voltage))
+        logger.debug('Set voltage_mV to {:f} Vpp'.format(voltage))
         self._write(':SOUR{:d}:VOLT {:f}'.format(ch, voltage))
 
         return True
 
 
     def setOffset(self, offset=0., ch=1):
-        """ Set offset voltage on desired channel
+        """ Set offset voltage_mV on desired channel
 
-            :param offset: float: offset voltage
+            :param offset: float: offset voltage_mV
             :param ch: int: channel
             :return: bool
             """
-        logger.debug('Set offset voltage to {:f} V'.format(offset))
+        logger.debug('Set offset voltage_mV to {:f} V'.format(offset))
         self._write(':SOUR{:d}:VOLT:OFFS {:f}'.format(ch, offset))
 
         return True
@@ -149,8 +149,8 @@ class Rigol(BaseDevice):
         :param channel: int: channel number
         :param function: string: function from dictionary FUNC
         :param frequency: float: frequency in Hz
-        :param voltage: float: amplitude voltage peak-to-peak in V
-        :param offset: float: offest voltage in V
+        :param voltage: float: amplitude voltage_mV peak-to-peak in V
+        :param offset: float: offest voltage_mV in V
         :param phase: float: phase shift in degrees
         :return: bool
         """
