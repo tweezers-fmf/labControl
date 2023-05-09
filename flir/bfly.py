@@ -33,7 +33,7 @@ from labControl.flir import conf as config
 from labtools.log import create_logger
 from labtools.utils.instr import InstrError, BaseDevice
 
-import ArTwvStructure
+from oldCode import ArTwvStructure
 import ctypes
 import multiprocessing as mp
 
@@ -982,6 +982,24 @@ def liveStreamProcess(imageArray: mp.Array, delayTime=0.2):
     while True:
         image = np.array(imageArray.value)
         timing.sleep(delayTime)
+
+
+def calculateTimestamp(image):
+    """ Calculate timestamp from first 4 image pixels
+
+    :param image: image array
+    :return: timestamp in seconds
+    """
+    a,b,c,d = image[0, :4, 0]
+    uiRawTimestamp = (a << 24) + (b << 16) + (c << 8) + d
+    # print(hex(uiRawTimestamp))
+    # print(hex(a), hex(b), hex(cam), hex(d))
+
+    nSecond = (uiRawTimestamp >> 25) & 0x7F  # get rid of cycle_ * - keep 7 bits
+    nCycleCount = (uiRawTimestamp >> 12) & 0x1FFF  # get rid of offset
+    nCycleOffset = (uiRawTimestamp >> 0) & 0xFFF  # get rid of * _count
+
+    return nSecond + ((nCycleCount+(nCycleOffset / 3072.0)) / 8000.0)
 
 
 if __name__ == '__main__':
