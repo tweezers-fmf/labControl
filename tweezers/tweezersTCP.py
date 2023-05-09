@@ -25,8 +25,11 @@ class Tweezer:
 
 
 class Optical(Tweezer):
+    """ Control for optical tweezers. Laser system with camera through TCP/IP
 
+    """
     def __init__(self, host='127.0.0.1', port=2070):
+        # connect to listening port on the host device
         super().__init__(host, port)
 
         # test connection
@@ -83,6 +86,11 @@ class Optical(Tweezer):
 
 
 class Magnetic(Tweezer):
+    """ Control for MagTweez system.
+    Check the directions with the connections on the box
+    """
+
+    # connection between the channels and directions, x-in plane horizontal, y-in plane vertical, z-out of plane
     DIR = {
         'x': (0, 1),
         'y': (4, 5),

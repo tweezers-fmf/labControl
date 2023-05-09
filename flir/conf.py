@@ -32,7 +32,7 @@ GAIN = 0.
 GAMMA_ENABLE = False
 TRIGGER_MODE = PySpin.TriggerMode_Off  # {On,Off}
 TRIGGER_SOURCE = PySpin.TriggerSource_Software  # {Software,Line0}
-ACQUISITION_MODE = PySpin.AcquisitionMode_Continuous  # {SingleFrame,MultiFrame,Continous}
+ACQUISITION_MODE = PySpin.AcquisitionMode_Continuous  # {SingleFrame,MultiFrame,Continuous}
 IMAGE_FORMAT = 'PGM'
 SERIAL = None
 

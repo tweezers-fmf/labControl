@@ -892,7 +892,7 @@ class CameraProcess(mp.Process):
                 # # live video - not working yet
                 # if timing.now() - checkTime > 0.2:  # if enough time passed, show picture
                 #     # print('Cam: draw picture')
-                #     cv2.imshow('LiveVideo', c.converted_image.GetNDArray())
+                #     cv2.imshow('LiveVideo', cam.converted_image.GetNDArray())
                 #     if cv2.waitKey(1) & 0xFF == ord('q'):
                 #         break
                 #     checkTime = timing.now()
@@ -986,12 +986,12 @@ def liveStreamProcess(imageArray: mp.Array, delayTime=0.2):
 
 if __name__ == '__main__':
 
+    # start a camera instance in a separate process, to be able to control other devices at the same time
     manager = mp.Manager()
     recStart = mp.Event()  # start recording
     recStop = mp.Event()  # stop recording
     stopper = mp.Event()  # stop stream
     fileName = manager.dict()
-
 
     tempImage = mp.Array('i', 1920*1200)
 
